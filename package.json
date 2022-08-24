@@ -1,0 +1,22 @@
+{
+  "name": "sfe-teams",
+  "version": "1.0.0",
+  "type": "module",
+  "module": "dist/index.mjs",
+  "private": true,
+  "scripts": {
+    "dev": "miniflare --watch --debug --wrangler-env=development",
+    "deploy:global": "node --no-warnings --experimental-vm-modules scripts/deploy.js",
+    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx}'"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.37.0",
+    "slshx": "^0.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.14.1",
+    "esbuild": "^0.14.53",
+    "miniflare": "^2.6.0",
+    "prettier": "2.7.1"
+  }
+}

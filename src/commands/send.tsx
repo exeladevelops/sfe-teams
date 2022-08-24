@@ -13,7 +13,6 @@ import { addRole, getGuildUser, removeRole } from "../utils/helpers";
 // REPLACE WITH YOUR OWN ROLE IDs
 // -------------------------------
 const teams: Array<string> = [
-  // "role id"
   "123456789012345678",
   "123456789012345678",
 ];
@@ -52,7 +51,6 @@ export function send(): CommandHandler<Env> {
 
     for (const role of Object.values(teams)) {
       if (roles.includes(role)) {
-        console.log("removing role");
         await removeRole(
           interaction.member?.user.id as string,
           interaction.guild_id as string,

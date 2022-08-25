@@ -6,23 +6,28 @@ import {
   useButton,
   Row,
   Button,
+  useString,
 } from "slshx";
 import { addRole, getGuildUser, removeRole } from "../utils/helpers";
 
 // -------------------------------
 // REPLACE WITH YOUR OWN ROLE IDs
 // -------------------------------
-const teams: Array<string> = [
-  "123456789012345678",
-  "123456789012345678",
+let teams: Array<string> = [
+  //role id
+  "1234567890123456789",
+  "1234567890123456789",
+  "...",
 ];
 
 export function send(): CommandHandler<Env> {
   useDescription("✉️ send the team selector yuh");
+  const content = useString("content", "message content");
+  const label = useString("label", "button label");
 
-  const teamButton = useButton(async (interaction, _env, _ctx) => {
+  const teamButton = useButton(async (interaction, _env: Env, _ctx) => {
     // @ts-ignore
-    const Index = await _env.KV.get("teams:index" as string);
+    const Index = (await _env.KV.get("teams:index" as string)) || "-1";
     let newIndex = parseInt(Index) + 1;
 
     // @ts-ignore
@@ -32,14 +37,7 @@ export function send(): CommandHandler<Env> {
     if (userIndex) newIndex = parseInt(userIndex);
 
     // @ts-ignore
-    if (!Index || newIndex >= Object.keys(teams).length) {
-      // @ts-ignore
-      await _env.KV.put("teams:index" as string, "0" as string);
-      newIndex = 0;
-    } else {
-      // @ts-ignore
-      await _env.KV.put("teams:index" as string, newIndex.toString() as string);
-    }
+    await _env.KV.put("teams:index" as string, newIndex.toString() as string);
 
     const user = await getGuildUser(
       interaction.member?.user.id as string,
@@ -86,11 +84,9 @@ export function send(): CommandHandler<Env> {
 
   return (_interaction, _env, _ctx) => (
     <Message>
-      Click the button below to join a team!
+      {content || "Click the button below to join a team!"}
       <Row>
-        <Button id={teamButton} danger>
-          shiny red button oooo
-        </Button>
+        <Button id={teamButton}>{label || "🪴"}</Button>
       </Row>
     </Message>
   );

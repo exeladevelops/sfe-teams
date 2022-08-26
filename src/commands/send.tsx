@@ -7,6 +7,7 @@ import {
   Row,
   Button,
   useString,
+  useDefaultPermission,
 } from "slshx";
 import { addRole, getGuildUser, removeRole } from "../utils/helpers";
 
@@ -21,6 +22,7 @@ let teams: Array<string> = [
 ];
 
 export function send(): CommandHandler<Env> {
+  useDefaultPermission(false);
   useDescription("✉️ send the team selector yuh");
   const content = useString("content", "message content");
   const label = useString("label", "button label");
@@ -42,7 +44,7 @@ export function send(): CommandHandler<Env> {
       env as Env
     );
     if (user === null) return;
-    const roles: Array<String> = user.roles;
+    const roles: Array<string> = user.roles;
 
     for (const role of Object.values(teams)) {
       if (roles.includes(role)) {
@@ -50,7 +52,7 @@ export function send(): CommandHandler<Env> {
           interaction.member?.user.id as string,
           interaction.guild_id as string,
           role as string,
-          "[TEAMS] Removed from team.",
+          "[TEAMS] Removed from team." as string,
           env as Env
         );
         return <Message ephemeral>You have left {`<@&${role}>`}</Message>;

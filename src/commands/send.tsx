@@ -25,36 +25,33 @@ export function send(): CommandHandler<Env> {
   const content = useString("content", "message content");
   const label = useString("label", "button label");
 
-  const teamButton = useButton(async (interaction, _env: Env, _ctx) => {
-    // @ts-ignore
-    const Index = (await _env.KV.get("teams:index" as string)) || "-1";
-    let newIndex = parseInt(Index) + 1;
+  const teamButton = useButton(async (interaction, env: Env) => {
+    const Index = (await env.KV.get("teams:index" as string)) || "-1";
+    let newIndex: number = parseInt(Index) + 1;
 
-    // @ts-ignore
-    const userIndex = await _env.KV.get(
+    const userIndex = await env.KV.get(
       `users:${interaction.member?.user.id}` as string
     );
     if (userIndex) newIndex = parseInt(userIndex);
 
-    // @ts-ignore
-    await _env.KV.put("teams:index" as string, newIndex.toString() as string);
+    await env.KV.put("teams:index" as string, newIndex.toString() as string);
 
     const user = await getGuildUser(
       interaction.member?.user.id as string,
       interaction.guild_id as string,
-      _env as Env
+      env as Env
     );
     if (user === null) return;
-    const roles = user.roles;
+    const roles: Array<String> = user.roles;
 
     for (const role of Object.values(teams)) {
       if (roles.includes(role)) {
         await removeRole(
           interaction.member?.user.id as string,
           interaction.guild_id as string,
-          role,
+          role as string,
           "[TEAMS] Removed from team.",
-          _env as Env
+          env as Env
         );
         return <Message ephemeral>You have left {`<@&${role}>`}</Message>;
       }
@@ -63,14 +60,13 @@ export function send(): CommandHandler<Env> {
     await addRole(
       interaction.member?.user.id as string,
       interaction.guild_id as string,
-      Object.values(teams)[newIndex],
-      "[TEAMS] Added to team.",
-      _env as Env
+      Object.values(teams)[newIndex] as string,
+      "[TEAMS] Added to team." as string,
+      env as Env
     );
-    // @ts-ignore
+
     if (!userIndex)
-      // @ts-ignore
-      await _env.KV.put(
+      await env.KV.put(
         `users:${interaction.member?.user.id}` as string,
         newIndex.toString() as string
       );
@@ -82,11 +78,11 @@ export function send(): CommandHandler<Env> {
     );
   });
 
-  return (_interaction, _env, _ctx) => (
+  return () => (
     <Message>
-      {content || "Click the button below to join a team!"}
+      {(content as string) || "Click the button below to join a team!"}
       <Row>
-        <Button id={teamButton}>{label || "🪴"}</Button>
+        <Button id={teamButton}>{(label as string) || "🪴"}</Button>
       </Row>
     </Message>
   );

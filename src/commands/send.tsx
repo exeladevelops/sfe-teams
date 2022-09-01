@@ -31,6 +31,10 @@ export function send(): CommandHandler<Env> {
     const Index = (await env.KV.get("teams:index" as string)) || "-1";
     let newIndex: number = parseInt(Index) + 1;
 
+    if (newIndex >= teams.length - 1) {
+      newIndex = 0;
+    }
+
     const userIndex = await env.KV.get(
       `users:${interaction.member?.user.id}` as string
     );

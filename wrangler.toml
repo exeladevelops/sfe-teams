@@ -1,7 +1,7 @@
 name = "sfe-teams"
 type = "javascript"
 
-account_id = "YOUR CLOUDFLARE ACCOUNT ID HERE"
+account_id = "794c531a2ec7c23fbdf9477d2cdefa86"
 workers_dev = true
 # route = ""
 # zone_id = ""
@@ -9,9 +9,7 @@ workers_dev = true
 compatibility_date = "2022-08-24"
 compatibility_flags = []
 
-kv_namespaces = [
-  { binding = "KV", id = "YOUR KV NAMESPACE ID HERE" }
-]
+kv_namespaces = [{ binding = "KV", id = "d74374b638b44cc4a0f6a1b68c47a5f5" }]
 
 [build]
 command = "node scripts/build.js production"

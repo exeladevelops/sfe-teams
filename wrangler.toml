@@ -1,7 +1,7 @@
 name = "sfe-teams"
 type = "javascript"
 
-account_id = "794c531a2ec7c23fbdf9477d2cdefa86"
+account_id = "YOUR ACCOUNT ID HERE"
 workers_dev = true
 # route = ""
 # zone_id = ""
@@ -9,7 +9,7 @@ workers_dev = true
 compatibility_date = "2022-08-24"
 compatibility_flags = []
 
-kv_namespaces = [{ binding = "KV", id = "d74374b638b44cc4a0f6a1b68c47a5f5" }]
+kv_namespaces = [{ binding = "KV", id = "YOUR KV NAMESPACE ID HERE" }]
 
 [build]
 command = "node scripts/build.js production"

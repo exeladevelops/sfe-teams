@@ -16,7 +16,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^3.14.1",
     "esbuild": "^0.15.5",
-    "miniflare": "^2.6.0",
+    "miniflare": "^2.12.0",
     "prettier": "2.7.1"
   }
 }
